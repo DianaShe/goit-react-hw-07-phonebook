@@ -11,7 +11,7 @@ export const handleAddContactFulfilled = (state, { payload }) => {
 };
 
 export const handleDeleteContactFulfilled = (state, { payload }) => {
-  const index = state.items.findIndex(contact => contact.id === payload);
+  const index = state.items.findIndex(item => item.id === payload.id);
   state.items.splice(index, 1);
 };
 

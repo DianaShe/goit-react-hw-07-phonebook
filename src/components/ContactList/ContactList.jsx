@@ -1,9 +1,8 @@
-import { Contact, Info } from './ContactList.styled';
-import { Button } from 'utils/Utils.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getVisibleContacts, getContacts } from 'redux/selectors';
-import { deleteContact, fetchContacts } from 'redux/operations';
+import { fetchContacts } from 'redux/operations';
+import ContactDetails from '../ContactDetails/ContactDetails'
 
 export default function ContactList() {
   const dispatch = useDispatch();
@@ -20,15 +19,8 @@ export default function ContactList() {
       {isLoading && !error && <b>Request in progress...</b>}
       {error && <p>{error}</p>}
       {visibleContacts.length > 0 &&
-        visibleContacts.map(({ name, id, number }) => (
-          <Contact key={id}>
-            <Info>
-              {name}: {number}
-            </Info>
-            <Button type="button" onClick={() => dispatch(deleteContact(id))}>
-              Delete
-            </Button>
-          </Contact>
+        visibleContacts.map((contact) => (
+          <ContactDetails key={contact.id} contact={contact} />
         ))}
     </ul>
   );
