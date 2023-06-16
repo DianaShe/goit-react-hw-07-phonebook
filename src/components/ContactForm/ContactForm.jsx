@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { FormContainer, AddButton } from './ContactForm.styled';
 import { Input } from 'utils/Utils.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { getContacts } from 'redux/selectors';
+import { useAddContactMutation, useGetContactsQuery } from 'redux/contactsSlice';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const dispatch = useDispatch();
-  const {items} = useSelector(getContacts);
+  const [addContact] = useAddContactMutation()
+  const {data} = useGetContactsQuery()
   
   const handleInputChange = e => {
     const { name, value } = e.currentTarget;
@@ -35,10 +33,10 @@ export default function ContactForm() {
   const handleSubmit = e => {
     e.preventDefault();
     
-    if (items.length && isInPhoneBook(name, items)) {
+    if (data && isInPhoneBook(name, data)) {
       alert(name + ' is already in contacts.');
     } else {
-      dispatch(addContact({name, number}))
+      addContact({name, number})
     }
     setName('');
     setNumber('');
